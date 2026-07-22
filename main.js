@@ -4,7 +4,7 @@
    >>> PONTO ÚNICO DE CONFIGURAÇÃO <<<
    ============================================================ */
 const CONFIG = {
-  checkoutUrl: "https://kiwify.com.br/PLACEHOLDER", // TODO: URL real do checkout Kiwify
+  checkoutUrl: "https://pay.kiwify.com.br/dl8NGjO", // TODO: URL real do checkout Kiwify
   price:       "R$ 87,90",
   priceAnchor: "R$ 137,90",                          // null oculta a âncora
   // Ponto de "descanso" do iPad sobre a superfície no fim do vídeo (% do stage + escala).
@@ -18,6 +18,15 @@ const CONFIG = {
   var clamp01 = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
   var smooth = function (x, a, b) { return clamp01((x - a) / (b - a)); };
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var isTouch = window.matchMedia("(hover: none)").matches;
+
+  /* ---- Textos de dica: touch (celular/tablet) usa "toque/clique" em vez de "mouse" ---- */
+  if (isTouch) {
+    var deviceHintText = document.querySelector(".device__hint-text");
+    if (deviceHintText) deviceHintText.textContent = "Clique sobre a tela do iPad";
+    var frentesHintText = document.querySelector(".frentes__hint-text");
+    if (frentesHintText) frentesHintText.textContent = "Toque no card para revelar";
+  }
 
   /* ---- Configuração (checkout + preço) ---- */
   document.querySelectorAll("[data-checkout]").forEach(function (el) { el.setAttribute("href", CONFIG.checkoutUrl); });
